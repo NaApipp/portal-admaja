@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 // Import Componets Navbar
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -29,6 +30,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <Navbar />
         <main className="flex-1 flex flex-col pt-22 p-6 overflow-y-auto">
           {children}
+          <Footer />
         </main>
       </div>
     </body>
