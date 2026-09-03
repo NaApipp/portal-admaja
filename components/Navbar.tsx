@@ -35,6 +35,13 @@ export default function Navbar() {
     return null;
   });
 
+  const pathname = usePathname();
+
+  // Tutup drawer saat berpindah halaman
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
+
   useEffect(() => {
     try {
       const sessionUser = sessionStorage.getItem("user");
@@ -68,8 +75,8 @@ export default function Navbar() {
 
   const menuItems = [
     {
-      name: "General",
-      href: "/general",
+      name: "Beranda",
+      href: "/beranda",
       icon: LayoutDashboard,
     },
     {
@@ -79,7 +86,7 @@ export default function Navbar() {
     },
     {
       name: "Riwayat Absensi",
-      href: "/attendance",
+      href: "/coming-soon",
       icon: CalendarCheck,
     },
   ];
@@ -145,19 +152,18 @@ export default function Navbar() {
       {/* Mobile Drawer / Dropdown */}
       {isOpen && (
         <div className="absolute inset-0 z-40 bg-black/50 backdrop-blur-xs">
-          <div className="absolute inset-x-0 top-16 bottom-0 overflow-y-auto bg-sec border-b border-[#1e3388] text-white p-5 flex flex-col justify-between">
-            {/* Nav Menu */}
-            <div className="space-y-4">
+          <div className="absolute inset-x-0 top-16 bottom-0 bg-sec border-b border-[#1e3388] text-white flex flex-col">
+            {/* Nav Menu — area scroll */}
+            <div className="flex-1 overflow-y-auto p-5">
               <nav>
                 <ul className="space-y-1.5">
                   {menuItems.map((item) => {
                     const Icon = item.icon;
-
                     return (
                       <li key={item.name}>
                         <Link
                           href={item.href}
-                          className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition-all`}
+                          className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition-all"
                         >
                           <Icon className="w-4 h-4 shrink-0" />
                           <span>{item.name}</span>
@@ -165,22 +171,24 @@ export default function Navbar() {
                       </li>
                     );
                   })}
+                  <li>
+                    <div className="p-5 border-t border-white/10 pb-8">
+                      <form onSubmit={handleLogout}>
+                        <button
+                          type="submit"
+                          disabled={loggingOut}
+                          className="group flex w-full h-11 items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold bg-white text-[#1e3388] hover:bg-white/90 active:scale-[0.98] transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+                        >
+                          <LogOut className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
+                          <span>
+                            {loggingOut ? "Keluar..." : "Keluar dari Akun"}
+                          </span>
+                        </button>
+                      </form>
+                    </div>
+                  </li>
                 </ul>
               </nav>
-            </div>
-
-            {/* Logout Footer */}
-            <div className="mt-auto pb-15 pt-4 border-t border-white/10">
-              <form onSubmit={handleLogout}>
-                <button
-                  type="submit"
-                  disabled={loggingOut}
-                  className="group flex w-full h-11 items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold bg-white text-[#1e3388] hover:bg-white/90 active:scale-[0.98] transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
-                >
-                  <LogOut className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
-                  <span>{loggingOut ? "Keluar..." : "Keluar dari Akun"}</span>
-                </button>
-              </form>
             </div>
           </div>
         </div>
