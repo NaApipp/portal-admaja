@@ -27,6 +27,7 @@ interface Candidate {
   visi_misi: {
     visi: string;
     misi: string[];
+    action_plan: string[];
   };
 }
 
@@ -138,6 +139,7 @@ export default function ElectionsPage() {
     );
   }
 
+  // Step Sudah Vote
   if (step === "already-voted") {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-5 p-6 text-center">
@@ -155,6 +157,7 @@ export default function ElectionsPage() {
     );
   }
 
+  // Step sukses vote
   if (step === "success") {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-5 p-6 text-center">
@@ -176,6 +179,7 @@ export default function ElectionsPage() {
     );
   }
 
+  // Step List kandidate
   if (step === "list") {
     return (
       <div className="flex flex-col gap-5 p-5">
@@ -268,6 +272,19 @@ export default function ElectionsPage() {
                 <li key={i} className="flex items-start gap-3">
                   <span className="w-5 h-5 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">{i + 1}</span>
                   <span className="text-white/75 text-sm leading-relaxed">{m}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
+        {selected.visi_misi.action_plan.length > 0 && (
+          <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+            <p className="text-white/60 text-xs font-semibold uppercase tracking-wider mb-3">Program Kerja</p>
+            <ol className="flex flex-col gap-2.5">
+              {selected.visi_misi.action_plan.map((a, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <span className="w-5 h-5 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">{i + 1}</span>
+                  <span className="text-white/75 text-sm leading-relaxed">{a}</span>
                 </li>
               ))}
             </ol>
