@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import AttendanceSummaryCard from "./components/AttendanceSummaryCard";
 
 export default function BerandaPage() {
   const [name, setName] = useState<string>("");
@@ -16,13 +17,20 @@ export default function BerandaPage() {
       console.error("Gagal mengambil data user:", error);
     }
   }, []);
-  return (
-    <div className="flex flex-col h-screen">
-      <h1 className="text-2xl font-bold text-white">Beranda</h1>
 
-      <h2 className="font-bold text-2xl text-white mt-5">
-        Halo, <span className="text-2xl font-bold text-red-600">{name}</span>
-      </h2>
+  return (
+    <div className="flex flex-col gap-5">
+      {/* Greeting */}
+      <div>
+        <p className="text-white/50 text-xs font-medium uppercase tracking-wider mb-1">Beranda</p>
+        <h1 className="text-white font-bold text-2xl leading-tight">
+          Halo,{" "}
+          <span className="text-blue-400">{name || "Anggota"}</span>
+        </h1>
+      </div>
+
+      {/* Attendance Summary Card */}
+      <AttendanceSummaryCard />
     </div>
   );
 }
