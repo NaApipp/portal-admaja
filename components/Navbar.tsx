@@ -86,7 +86,7 @@ export default function Navbar() {
     },
     {
       name: "Riwayat Absensi",
-      href: "/coming-soon",
+      href: "/attendance_history",
       icon: CalendarCheck,
     },
   ];
@@ -112,7 +112,7 @@ export default function Navbar() {
         <div className="flex h-full items-center justify-between px-4 sm:px-6">
           {/* Logo & Brand */}
           <Link
-            href="/general"
+            href="/beranda"
             className="flex items-center gap-2.5 focus:outline-none"
           >
             <Image
@@ -125,7 +125,7 @@ export default function Navbar() {
             />
             <div className="flex items-center gap-1.5">
               <span className="font-bold text-base text-white leading-tight">
-                Dashboard
+                Portal
               </span>
               <span className="font-bold text-sm text-red-500">Admaja</span>
             </div>
