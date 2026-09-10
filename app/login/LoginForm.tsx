@@ -31,7 +31,10 @@ export default function LoginForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          name: formData.name.toUpperCase(),
+        }),
       });
 
       const data = await response.json();
@@ -99,7 +102,7 @@ Terima kasih atas bantuannya.`;
                   </div>
                   <input
                     placeholder="Name"
-                    className="w-full bg-transparent py-3 pl-11 pr-4 text-white placeholder:text-slate-400 text-sm focus:outline-none"
+                    className="uppercase placeholder:normal-case w-full bg-transparent py-3 pl-11 pr-4 text-white placeholder:text-slate-400 text-sm focus:outline-none"
                     required
                     autoComplete="name"
                     type="text"
