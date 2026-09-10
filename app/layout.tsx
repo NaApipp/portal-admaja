@@ -15,15 +15,16 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://portal.admajaskanifo.org"),
 
-  // Tittle
+  // Title
   title: "Portal Admaja",
-  description: "Portal Admaja",
+  description:
+    "Portal Anggota Resmi Paskibra Admaja SMKN 4 Kendal — Akses riwayat kehadiran latihan, pemilu voting ketua organisasi, dan informasi keanggotaan Paskibra.",
 
   // category
   category: "information",
 
   // Informasi pembuat
-  authors: [{ name: "Nabil Arif", url: "https://appsporto.vercel.app" }],
+  authors: [{ name: "Nabil Arif", url: "https://appsporto.my.id" }],
   creator: "Nabil Arif",
   publisher: "Adika Mahdi Jaya",
 
@@ -38,12 +39,13 @@ export const metadata: Metadata = {
 
   openGraph: {
     title: "Portal Admaja", // Judul saat di-share
-    description: "Portal Admaja", // Deskripsi saat di-share
+    description:
+      "Portal Anggota Resmi Paskibra Admaja SMKN 4 Kendal — Akses riwayat kehadiran latihan, pemilu voting ketua organisasi, dan informasi keanggotaan Paskibra.", // Deskripsi saat di-share
     url: "https://portal.admajaskanifo.org", // URL utama
     siteName: "Portal Admaja",
     images: [
       {
-        url: "/logo-v2.png", // Gambar preview
+        url: "/og-image.png", // Gambar preview
         width: 1200,
         height: 630,
         alt: "Preview Image",
@@ -57,8 +59,9 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image", // tipe card
     title: "Portal Admaja",
-    description: "Portal Anggota Resmi Admaja",
-    images: ["/logo-v2.png"],
+    description:
+      "Portal Anggota Resmi Paskibra Admaja SMKN 4 Kendal — Akses riwayat kehadiran latihan, pemilu voting ketua organisasi, dan informasi keanggotaan Paskibra.",
+    images: ["/og-image.png"],
     creator: "@n_apipppp",
   },
 };
