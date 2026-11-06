@@ -1,18 +1,40 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { User, Lock, Eye, EyeOff } from "lucide-react";
+import Image from "next/image";
+import {
+  User,
+  Lock,
+  Eye,
+  EyeOff,
+  ArrowRight,
+  AlertCircle,
+  CheckCircle2,
+  Loader2,
+} from "lucide-react";
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({
     name: "",
     nisn: "",
   });
+  const [showNisn, setShowNisn] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const router = useRouter();
+
+  // Pastikan background halaman penuh gelap saat berada di halaman login
+  useEffect(() => {
+    document.documentElement.classList.add("dark");
+    const prevBg = document.body.style.backgroundColor;
+    document.body.style.backgroundColor = "#101320";
+
+    return () => {
+      document.body.style.backgroundColor = prevBg;
+    };
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -45,7 +67,7 @@ export default function LoginForm() {
 
       setSuccess("Login berhasil! Mengalihkan...");
 
-      // Simpan data user ke localStorage atau context jika diperlukan
+      // Simpan data user ke sessionStorage
       sessionStorage.setItem("user", JSON.stringify(data.user));
 
       setTimeout(() => {
@@ -73,36 +95,86 @@ Terima kasih atas bantuannya.`;
   )}`;
 
   return (
-    <div className="flex items-center justify-center px-4 py-12 min-h-screen bg-sec">
-      <div className="max-w-md w-full">
-        <div className="bg-third rounded-lg shadow-xl overflow-hidden">
-          <div className="p-8">
-            <h2 className="text-center text-xl md:text-2xl font-extrabold text-white">
-              Portal <span className="text-[#FF0000]">Admaja</span>
+    <section className="relative flex min-h-screen w-full items-center justify-center bg-main text-white px-5 py-12 sm:px-8 lg:px-12 overflow-hidden [color-scheme:dark]">
+      {/* Background ambient lighting */}
+      <div className="pointer-events-none absolute -top-40 -left-40 h-96 w-96 rounded-full bg-[#1E3E62]/30 blur-[120px]" />
+      <div className="pointer-events-none absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-[#1E3E62]/20 blur-[120px]" />
+
+      <div className="relative w-full max-w-md">
+        {/* Card Box */}
+        <div className="rounded-2xl border border-white/10 bg-sec/95 p-6 shadow-2xl shadow-black/50 backdrop-blur-xl sm:p-9">
+          {/* Header Branding */}
+          <div className="mb-8">
+            <div className="flex items-center gap-2.5 mb-4">
+              <Image
+                src="/logo-v2.png"
+                alt="Logo Admaja"
+                width={36}
+                height={36}
+                className="w-9 h-auto object-contain"
+                priority
+              />
+              <div className="flex items-center gap-1.5">
+                <span className="font-bold text-base text-white leading-tight">
+                  Portal
+                </span>
+                <span className="font-bold text-sm text-red-500">Admaja</span>
+              </div>
+            </div>
+
+            <p className="text-xs font-semibold tracking-wider text-blue-400 uppercase">
+              PORTAL ADMAJA
+            </p>
+            <h2 className="mt-1 text-2xl font-bold tracking-tight text-white sm:text-3xl">
+              Selamat datang
             </h2>
-            <p className="mt-4 text-center text-gray-400">Silahkan Login</p>
+            <p className="mt-2 text-sm leading-6 text-slate-400">
+              Silakan login untuk masuk ke portal{" "}
+              <span className="font-bold text-red-500">Admaja</span>.
+            </p>
+          </div>
 
-            {error && (
-              <div className="mt-4 p-3 bg-red-500/20 border border-red-500 text-red-500 rounded-md text-sm text-center">
-                {error}
-              </div>
-            )}
-            {success && (
-              <div className="mt-4 p-3 bg-green-500/20 border border-green-500 text-green-500 rounded-md text-sm text-center">
-                {success}
-              </div>
-            )}
+          {/* Error Alert */}
+          {error && (
+            <div
+              role="alert"
+              className="mb-5 flex items-start gap-2.5 rounded-xl border border-rose-500/30 bg-rose-500/10 p-3.5 text-sm text-rose-300"
+            >
+              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-rose-400" />
+              <span>{error}</span>
+            </div>
+          )}
 
-            <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-              <div className="space-y-4">
-                {/* name Field */}
-                <div className="relative flex items-center rounded-lg border border-[#3b5299] bg-transparent focus-within:border-blue-400 focus-within:ring-1 focus-within:ring-blue-400 transition-all duration-200">
-                  <div className="absolute left-3.5 flex items-center pointer-events-none text-slate-400">
-                    <User className="w-5 h-5 stroke-[1.75]" />
-                  </div>
+          {/* Success Alert */}
+          {success && (
+            <div
+              role="status"
+              className="mb-5 flex items-start gap-2.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-3.5 text-sm text-emerald-300"
+            >
+              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" />
+              <span>{success}</span>
+            </div>
+          )}
+
+          {/* Login Form */}
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="space-y-4">
+              {/* Nama Lengkap Input */}
+              <div>
+                <label
+                  htmlFor="name"
+                  className="mb-2 block text-sm font-medium text-slate-300"
+                >
+                  Nama Lengkap
+                </label>
+                <div className="relative flex items-center rounded-xl border border-white/10 bg-[#0B1426] transition-colors focus-within:border-blue-400 focus-within:ring-4 focus-within:ring-blue-500/15">
+                  <User
+                    aria-hidden="true"
+                    className="absolute left-3.5 h-5 w-5 text-slate-400"
+                  />
                   <input
-                    placeholder="Name"
-                    className="uppercase placeholder:normal-case w-full bg-transparent py-3 pl-11 pr-4 text-white placeholder:text-slate-400 text-sm focus:outline-none"
+                    className="w-full rounded-xl bg-transparent py-3.5 pl-11 pr-4 text-sm text-white placeholder:text-slate-500 focus:outline-none"
+                    placeholder="Masukkan Nama Lengkap"
                     required
                     autoComplete="name"
                     type="text"
@@ -112,63 +184,84 @@ Terima kasih atas bantuannya.`;
                     onChange={handleChange}
                   />
                 </div>
+              </div>
 
-                {/* Password Field */}
-                <div className="relative flex items-center rounded-lg border border-[#3b5299] bg-transparent focus-within:border-blue-400 focus-within:ring-1 focus-within:ring-blue-400 transition-all duration-200">
-                  <div className="absolute left-3.5 flex items-center pointer-events-none text-slate-400">
-                    <Lock className="w-5 h-5 stroke-[1.75]" />
-                  </div>
+              {/* NISN Input */}
+              <div>
+                <label
+                  htmlFor="nisn"
+                  className="mb-2 block text-sm font-medium text-slate-300"
+                >
+                  NISN
+                </label>
+                <div className="relative flex items-center rounded-xl border border-white/10 bg-[#0B1426] transition-colors focus-within:border-blue-400 focus-within:ring-4 focus-within:ring-blue-500/15">
+                  <Lock
+                    aria-hidden="true"
+                    className="absolute left-3.5 h-5 w-5 text-slate-400"
+                  />
                   <input
-                    placeholder="NISN"
-                    className="w-full bg-transparent py-3 pl-11 pr-11 text-white placeholder:text-slate-400 text-sm focus:outline-none"
+                    placeholder="Masukkan NISN 10 Digit"
+                    className="w-full rounded-xl bg-transparent py-3.5 pl-11 pr-11 text-sm text-white placeholder:text-slate-500 focus:outline-none"
                     required
-                    autoComplete="nisn"
+                    type={showNisn ? "text" : "password"}
                     name="nisn"
                     id="nisn"
                     value={formData.nisn}
                     onChange={handleChange}
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowNisn((prev) => !prev)}
+                    className="absolute right-3 p-1 text-slate-400 hover:text-slate-200 transition-colors focus:outline-none cursor-pointer"
+                    aria-label={showNisn ? "Sembunyikan NISN" : "Tampilkan NISN"}
+                  >
+                    {showNisn ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </button>
                 </div>
               </div>
+            </div>
 
-              <div className="flex items-center justify-end">
-                <div className="text-sm">
-                  <p className="font-medium text-white cursor-pointer">
-                    Lupa Password?{" "}
-                    <a
-                      href={whatsappUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-white"
-                    >
-                      Hubungi Developer
-                    </a>
-                  </p>
-                </div>
-              </div>
+            {/* Submit Button */}
+            <button
+              disabled={loading}
+              className="group flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#1E3E62] hover:bg-[#254d79] active:bg-[#183350] px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-[#1E3E62]/30 transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-500/30 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
+              type="submit"
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin text-white" />
+                  <span>Memproses...</span>
+                </>
+              ) : (
+                <>
+                  <span>Masuk ke Portal</span>
+                  <ArrowRight
+                    aria-hidden="true"
+                    className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                  />
+                </>
+              )}
+            </button>
+          </form>
+        </div>
 
-              <div>
-                <button
-                  disabled={loading}
-                  className={`group relative w-full flex justify-center py-3 px-4 
-                            border border-transparent text-sm font-semibold
-                              text-[#14236F] bg-white hover:bg-white/80 focus:outline-none 
-                              focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
-                                loading ? "opacity-50 cursor-not-allowed" : ""
-                              }`}
-                  type="submit"
-                >
-                  {loading ? "Memproses..." : "Masuk"}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-        <div className="px-8 py-4 text-center flex justify-center gap-2">
-          <span className="text-white text-sm">Belum punya akun?</span>{" "}
-          <p className="font-medium text-[#FFDDB5] text-sm">Hubungi Admin</p>
-        </div>
+        {/* Footer Link */}
+        <p className="mt-6 text-center text-sm text-slate-400">
+          Belum memiliki akun?{" "}
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-blue-400 hover:text-blue-300 underline-offset-4 hover:underline transition-colors"
+          >
+            Hubungi admin.
+          </a>
+        </p>
       </div>
-    </div>
+    </section>
   );
 }
